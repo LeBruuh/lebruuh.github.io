@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title>Software Engineer – Portfolio & Qualifikationen</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <style>
+        /* ====== Basislayout ====== */
+        :root {
+            --bg: #0f172a;
+            --bg-alt: #111827;
+            --card: #1f2937;
+            --accent: #3b82f6;
+            --accent-soft: rgba(59, 130, 246, 0.1);
+            --text: #e5e7eb;
+            --text-muted: #9ca3af;
+            --border: #374151;
+            --code-bg: #020617;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            background: radial-gradient(circle at top, #1e293b, #020617 55%);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .page {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 2.5rem 1.5rem 3.5rem;
+        }
+
+        /* ====== Header / Hero ====== */
+        header {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.75rem;
+            align-items: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .avatar {
+            width: 96px;
+            height: 96px;
+            border-radius: 999px;
+            background: radial-gradient(circle at 30% 30%, #4b5563, #020617);
+            border: 2px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #e5e7eb;
+            flex-shrink: 0;
+        }
+
+        .hero-text h1 {
+            margin: 0 0 0.25rem;
+            font-size: clamp(2rem, 3vw, 2.4rem);
+            letter-spacing: 0.03em;
+        }
+
+        .hero-text h2 {
+            margin: 0 0 0.6rem;
+            font-size: 1.15rem;
+            font-weight: 500;
+            color: var(--accent);
+        }
+
+        .hero-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem 1.75rem;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        .hero-meta span {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .hero-meta span::before {
+            content: "•";
+            color: var(--accent);
+            font-size: 1.1rem;
+        }
+
+        /* ====== Grid Layout ====== */
+        main {
+            display: grid;
+            gap: 1.75rem;
+        }
+
+        @media (min-width: 900px) {
+            main {
+                grid-template-columns: 2fr 1.2fr;
+                align-items: flex-start;
+            }
+        }
+
+        /* ====== Karten / Sektionen ====== */
+        section {
+            background: linear-gradient(145deg, var(--card), #020617);
+            border-radius: 1rem;
+            border: 1px solid var(--border);
+            padding: 1.4rem 1.5rem 1.5rem;
+            box-shadow:
+                0 18px 45px rgba(0, 0, 0, 0.75),
+                0 0 0 1px rgba(15, 23, 42, 0.9);
+        }
+
+        section h3 {
+            margin: 0 0 0.9rem;
+            font-size: 1.05rem;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--text-muted);
+        }
+
+        .pill {
+            display: inline-flex;
+            padding: 0.15rem 0.55rem;
+            border-radius: 999px;
+            border: 1px solid var(--border);
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--text-muted);
+            margin-left: 0.4rem;
+        }
+
+        /* ====== Text & Listen ====== */
+        p {
+            margin: 0 0 0.7rem;
+            font-size: 0.95rem;
+        }
+
+        ul {
+            margin: 0.2rem 0 0.3rem 1.1rem;
+            padding: 0;
+            font-size: 0.93rem;
+        }
+
+        li {
+            margin-bottom: 0.25rem;
+        }
+
+        strong {
+            color: #f9fafb;
+        }
+
+        /* ====== Skills ====== */
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+            margin-top: 0.3rem;
+        }
+
+        .tag {
+            font-size: 0.82rem;
+            padding: 0.25rem 0.55rem;
+            border-radius: 999px;
+            background: var(--accent-soft);
+            color: #bfdbfe;
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            white-space: nowrap;
+        }
+
+        .tag.neutral {
+            background: rgba(148, 163, 184, 0.12);
+            color: #e5e7eb;
+            border-color: rgba(148, 163, 184, 0.35);
+        }
+
+        /* ====== Zeitachse (Erfahrung / Bildung) ====== */
+        .timeline {
+            border-left: 1px solid var(--border);
+            margin-left: 0.5rem;
+            padding-left: 1.1rem;
+        }
+
+        .entry {
+            position: relative;
+            margin-bottom: 1.15rem;
+        }
+
+        .entry:last-child {
+            margin-bottom: 0;
+        }
+
+        .entry::before {
+            content: "";
+            position: absolute;
+            left: -1.5rem;
+            top: 0.25rem;
+            width: 9px;
+            height: 9px;
+            border-radius: 999px;
+            background: var(--accent);
+            box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.15);
+        }
+
+        .entry-header {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 0.25rem 0.75rem;
+        }
+
+        .entry-title {
+            font-weight: 600;
+            font-size: 0.97rem;
+        }
+
+        .entry-meta {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .entry-sub {
+            font-size: 0.86rem;
+            color: var(--text-muted);
+            margin-bottom: 0.2rem;
+        }
+
+        /* ====== Projekte ====== */
+        .project {
+            margin-bottom: 1.1rem;
+        }
+
+        .project:last-child {
+            margin-bottom: 0;
+        }
+
+        .project-header {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 0.4rem 0.75rem;
+            margin-bottom: 0.15rem;
+        }
+
+        .project-title {
+            font-weight: 600;
+            font-size: 0.96rem;
+        }
+
+        .project-meta {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .code-stack {
+            font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+            font-size: 0.78rem;
+            background: var(--code-bg);
+            padding: 0.35rem 0.5rem;
+            border-radius: 0.45rem;
+            border: 1px solid var(--border);
+            color: #e5e7eb;
+            margin-top: 0.3rem;
+        }
+
+        /* ====== Kontakt ====== */
+        .contact-item {
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 0.45rem;
+            margin-bottom: 0.4rem;
+        }
+
+        .contact-label {
+            width: 70px;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.14em;
+            color: var(--text-muted);
+        }
+
+        .contact-value {
+            color: #e5e7eb;
+            word-break: break-word;
+        }
+
+        /* ====== Fußzeile ====== */
+        footer {
+            margin-top: 2rem;
+            text-align: center;
+            font-size: 0.78rem;
+            color: var(--text-muted);
+        }
+    </style>
+</head>
+<body>
+<div class="page">
+
+    <!-- ================== HEADER ================== -->
+    <header>
+        <div class="avatar">
+            <!-- Initialen anpassen -->
+            ME
+        </div>
+        <div class="hero-text">
+            <!-- Namen & Titel anpassen -->
+            <h1>Max Beispiel</h1>
+            <h2>Software Engineer · Full‑Stack / Backend</h2>
+
+            <div class="hero-meta">
+                <span>5+ Jahre Berufserfahrung</span>
+                <span>Spezialisiert auf Web‑Applikationen & verteilte Systeme</span>
+                <span>Standort: Berlin, Deutschland</span>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- ================== LINKER BEREICH (Profil, Erfahrung, Projekte) ================== -->
+        <div>
+
+            <!-- ===== Profil ===== -->
+            <section aria-labelledby="profil">
+                <h3 id="profil">Profil<span class="pill">Über mich</span></h3>
+                <p>
+                    Ich bin <strong>Software Engineer</strong> mit Schwerpunkt auf der Entwicklung skalierbarer Web‑
+                    und Backend‑Systeme. Meine Stärken liegen in <strong>sauberer Architektur</strong>,
+                    <strong>Testautomatisierung</strong> und der engen Zusammenarbeit mit Produkt‑ und
+                    DevOps‑Teams, um stabile Software von der Idee bis zum produktiven Betrieb zu liefern.
+                </p>
+                <p>
+                    Ich arbeite gerne mit <strong>Cross‑Functional Teams</strong>, lege Wert auf
+                    <strong>Clean Code</strong>, sinnvolle Reviews und pragmatische Lösungen, die sowohl
+                    technisch sauber als auch wirtschaftlich sinnvoll sind.
+                </p>
+            </section>
+
+            <!-- ===== Berufserfahrung ===== -->
+            <section aria-labelledby="erfahrung">
+                <h3 id="erfahrung">Berufserfahrung<span class="pill">Auswahl</span></h3>
+
+                <div class="timeline">
+
+                    <!-- Position 1 -->
+                    <article class="entry">
+                        <div class="entry-header">
+                            <div class="entry-title">Senior Software Engineer – Backend</div>
+                            <div class="entry-meta">2022 – heute · BeispielTech GmbH, Berlin</div>
+                        </div>
+                        <div class="entry-sub">
+                            Microservices · Cloud‑Native · Event‑Driven Architecture
+                        </div>
+                        <ul>
+                            <li>Konzeption und Implementierung von <strong>Microservices</strong> in einer verteilten
+                                Event‑Driven Architektur (z. B. Kafka, REST, gRPC).</li>
+                            <li>Verantwortung für <strong>kritische Kern‑APIs</strong> mit hohen Durchsatzanforderungen
+                                und strengen SLAs.</li>
+                            <li>Aufbau von <strong>CI/CD‑Pipelines</strong> (z. B. GitHub Actions, GitLab CI) und
+                                Einführung von automatisierten Tests (Unit, Integration, Contract‑Tests).</li>
+                            <li>Enge Zusammenarbeit mit Product Ownern, um Anforderungen zu schärfen und
+                                <strong>technische Schulden</strong> kontrolliert abzubauen.</li>
+                        </ul>
+                    </article>
+
+                    <!-- Position 2 -->
+                    <article class="entry">
+                        <div class="entry-header">
+                            <div class="entry-title">Software Engineer – Full‑Stack</div>
+                            <div class="entry-meta">2019 – 2022 · WebSolutions AG, Remote</div>
+                        </div>
+                        <div class="entry-sub">
+                            B2B‑SaaS · Single‑Page‑Applications · API‑Design
+                        </div>
+                        <ul>
+                            <li>Entwicklung einer <strong>Single‑Page‑Application</strong> inkl. REST‑Backend für ein
+                                B2B‑Dashboard mit rollenbasiertem Zugriff.</li>
+                            <li>Implementierung wiederverwendbarer <strong>UI‑Komponenten</strong> und State‑Management
+                                (z. B. Redux, Vuex oder vergleichbare Lösungen).</li>
+                            <li>Performance‑Optimierungen (Lazy‑Loading, Caching, Query‑Optimierung), um Ladezeiten
+                                signifikant zu reduzieren.</li>
+                            <li>Mitarbeit an technischer Dokumentation, Coding‑Guidelines & internen Best Practices.</li>
+                        </ul>
+                    </article>
+
+                    <!-- Position 3 -->
+                    <article class="entry">
+                        <div class="entry-header">
+                            <div class="entry-title">Werkstudent Softwareentwicklung</div>
+                            <div class="entry-meta">2017 – 2019 · Startup XYZ, München</div>
+                        </div>
+                        <div class="entry-sub">
+                            Prototyping · APIs · Monitoring
+                        </div>
+                        <ul>
+                            <li>Entwicklung von Prototypen für neue Features und interne Tools.</li>
+                            <li>Erweiterung bestehender REST‑APIs und Implementierung von
+                                <strong>Logging & Monitoring</strong>.</li>
+                        </ul>
+                    </article>
+                </div>
+            </section>
+
+            <!-- ===== Projekte ===== -->
+            <section aria-labelledby="projekte">
+                <h3 id="projekte">Ausgewählte Projekte<span class="pill">Technische Highlights</span></h3>
+
+                <!-- Projekt 1 -->
+                <article class="project">
+                    <div class="project-header">
+                        <div class="project-title">Echtzeit‑Benachrichtigungssystem</div>
+                        <div class="project-meta">Open Source · 2023 – heute</div>
+                    </div>
+                    <p>
+                        Entwicklung eines skalierbaren Systems zur Verteilung von Notifications in Echtzeit
+                        (E‑Mail, Web‑Push, In‑App), ausgelegt auf hohe Parallelität und Ausfallsicherheit.
+                    </p>
+                    <ul>
+                        <li>Design einer <strong>Event‑Driven Architektur</strong> mit Message‑Broker.</li>
+                        <li>Implementierung von <strong>Retry‑Strategien</strong>, Dead‑Letter‑Queues und
+                            Observability (Tracing, Metrics, Logs).</li>
+                    </ul>
+                    <div class="code-stack">
+                        Stack: Node.js / TypeScript · PostgreSQL · Redis · Kafka · Docker · Kubernetes
+                    </div>
+                </article>
+
+                <!-- Projekt 2 -->
+                <article class="project">
+                    <div class="project-header">
+                        <div class="project-title">Admin‑Dashboard für Kundendaten</div>
+                        <div class="project-meta">In Produktion · 2021</div>
+                    </div>
+                    <p>
+                        Entwicklung eines internen Dashboards zur Verwaltung von Kundendaten, Berechtigungen
+                        und Support‑Workflows mit starkem Fokus auf UX und Datensicherheit.
+                    </p>
+                    <ul>
+                        <li>Rollen‑ und Rechtekonzept, Audit‑Logging und DSGVO‑konforme Datenverarbeitung.</li>
+                        <li>Reaktive UI mit Server‑seitigem Filtering, Pagination und Live‑Updates.</li>
+                    </ul>
+                    <div class="code-stack">
+                        Stack: React / Vue / Angular (anpassen) · REST / GraphQL API · JWT‑Auth · CI/CD
+                    </div>
+                </article>
+            </section>
+        </div>
+
+        <!-- ================== RECHTER BEREICH (Skills, Bildung, Kontakt) ================== -->
+        <div>
+
+            <!-- ===== Kernkompetenzen ===== -->
+            <section aria-labelledby="skills">
+                <h3 id="skills">Kernkompetenzen<span class="pill">Tech‑Stack</span></h3>
+
+                <p><strong>Programmiersprachen</strong></p>
+                <div class="tags">
+                    <span class="tag">TypeScript</span>
+                    <span class="tag">JavaScript (ES6+)</span>
+                    <span class="tag">Java / Kotlin</span>
+                    <span class="tag">Python</span>
+                    <span class="tag">SQL</span>
+                </div>
+
+                <p><strong>Backend & APIs</strong></p>
+                <div class="tags">
+                    <span class="tag">REST</span>
+                    <span class="tag">GraphQL</span>
+                    <span class="tag">gRPC</span>
+                    <span class="tag">Node.js</span>
+                    <span class="tag">Spring Boot</span>
+                    <span class="tag">Express / NestJS</span>
+                </div>
+
+                <p><strong>Frontend</strong></p>
+                <div class="tags">
+                    <span class="tag">React</span>
+                    <span class="tag">Vue</span>
+                    <span class="tag">HTML5</span>
+                    <span class="tag">CSS3 / Tailwind</span>
+                    <span class="tag">SPA / SSR</span>
+                </div>
+
+                <p><strong>Datenbanken & Infrastruktur</strong></p>
+                <div class="tags">
+                    <span class="tag">PostgreSQL</span>
+                    <span class="tag">MySQL</span>
+                    <span class="tag">MongoDB</span>
+                    <span class="tag">Redis</span>
+                    <span class="tag">Docker</span>
+                    <span class="tag">Kubernetes</span>
+                    <span class="tag">AWS / GCP / Azure</span>
+                </div>
+
+                <p><strong>Arbeitsweise & Tools</strong></p>
+                <div class="tags">
+                    <span class="tag neutral">Clean Code</span>
+                    <span class="tag neutral">TDD / Unit‑Tests</span>
+                    <span class="tag neutral">CI/CD</span>
+                    <span class="tag neutral">Agile / Scrum / Kanban</span>
+                    <span class="tag neutral">Code‑Reviews</span>
+                    <span class="tag neutral">Domain‑Driven Design</span>
+                </div>
+            </section>
+
+            <!-- ===== Ausbildung ===== -->
+            <section aria-labelledby="bildung">
+                <h3 id="bildung">Ausbildung<span class="pill">Akademisch</span></h3>
+                <div class="timeline">
+
+                    <article class="entry">
+                        <div class="entry-header">
+                            <div class="entry-title">M.Sc. Informatik (optional)</div>
+                            <div class="entry-meta">2017 – 2019 · TU Musterstadt</div>
+                        </div>
+                        <div class="entry-sub">Schwerpunkte: Verteilte Systeme, Software‑Architektur</div>
+                        <ul>
+                            <li>Masterarbeit zu skalierbaren Cloud‑Architekturen (Thema anpassen).</li>
+                        </ul>
+                    </article>
+
+                    <article class="entry">
+                        <div class="entry-header">
+                            <div class="entry-title">B.Sc. Informatik</div>
+                            <div class="entry-meta">2013 – 2017 · Hochschule Beispiel</div>
+                        </div>
+                        <div class="entry-sub">Grundlagen der Softwareentwicklung & Algorithmen</div>
+                    </article>
+
+                </div>
+            </section>
+
+            <!-- ===== Zertifikate / Sonstiges ===== -->
+            <section aria-labelledby="zertifikate">
+                <h3 id="zertifikate">Zertifikate & Sonstiges</h3>
+                <ul>
+                    <li>Cloud‑Zertifizierung (z. B. AWS Certified Developer – Associate).</li>
+                    <li>Regelmäßige Teilnahme an Meetups & Konferenzen (z. B. <em>Domain‑Driven Design Europe</em>).</li>
+                    <li>Open‑Source‑Beiträge auf GitHub (Links siehe unten).</li>
+                </ul>
+            </section>
+
+            <!-- ===== Kontakt ===== -->
+            <section aria-labelledby="kontakt">
+                <h3 id="kontakt">Kontakt<span class="pill">Erreichbarkeit</span></h3>
+
+                <div class="contact-item">
+                    <div class="contact-label">E‑Mail</div>
+                    <div class="contact-value">
+                        <a href="mailto:max.beispiel@mailprovider.de">
+                            max.beispiel@mailprovider.de
+                        </a>
+                    </div>
+                </div>
+
+                <div class="contact-item">
+                    <div class="contact-label">GitHub</div>
+                    <div class="contact-value">
+                        <a href="https://github.com/username" target="_blank" rel="noreferrer">
+                            github.com/username
+                        </a>
+                    </div>
+                </div>
+
+                <div class="contact-item">
+                    <div class="contact-label">LinkedIn</div>
+                    <div class="contact-value">
+                        <a href="https://www.linkedin.com/in/username" target="_blank" rel="noreferrer">
+                            linkedin.com/in/username
+                        </a>
+                    </div>
+                </div>
+
+                <div class="contact-item">
+                    <div class="contact-label">Website</div>
+                    <div class="contact-value">
+                        <a href="https://www.meine-portfolio-seite.de" target="_blank" rel="noreferrer">
+                            www.meine-portfolio-seite.de
+                        </a>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        Diese Seite ist als Vorlage gedacht – bitte Inhalte (Name, Firmen, Technologien, Projekte) an deine
+        tatsächlichen Qualifikationen anpassen.
+    </footer>
+
+</div>
+</body>
+</html>
